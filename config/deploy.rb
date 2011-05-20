@@ -1,12 +1,12 @@
 #require 'mongrel_cluster/recipes'
 
-set :application, "tryruby"
+set :application, "rbxbot"
 #set :repository,  "http://tools.assembla.com/svn/scruby/trunk"
 
 # GIT settings
 default_run_options[:pty] = true
 
-set :repository, "https://github.com/hosiawak/TryRuby.git"
+set :repository, "https://github.com/hosiawak/rbxbot.git"
 set :scm, :git
 set :user, "hosiawak"
 set :remote, "master"
