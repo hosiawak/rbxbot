@@ -24,9 +24,7 @@ class CodeRunner
   protected
 
   def self.exec_at(url, code)
-    url = Addressable::URI.encode("#{url}/?cmd=#{code}}")
-    puts url
-    resp = HTTParty.get(url)
+    resp = HTTParty.post(url, :body => { :cmd => code})
     if resp.code != 200
       "HTTP Connection problem"
     else

@@ -1,11 +1,10 @@
 require 'sinatra'
 require './tryruby'
 require 'json'
-require 'addressable'
 
-get '/' do
+post '/' do
   content_type :json
-  cmd = Addressable::URI.unescape(params[:cmd])
+  cmd = params[:cmd]
   r = TryRuby.run_line(cmd)
   {
     :type => r.type,
