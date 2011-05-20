@@ -33,3 +33,8 @@ role :db,  "karol@h1.hogo.pl", :primary => true
 
 # hooks
 after "deploy", "deploy:cleanup"
+
+namespace :deploy do
+  task :restart do
+  end
+end

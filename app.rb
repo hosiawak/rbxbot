@@ -1,6 +1,7 @@
 require 'sinatra'
 require './tryruby'
 require 'json'
+require 'addressable'
 
 get '/' do
   content_type :json
