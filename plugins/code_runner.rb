@@ -16,8 +16,8 @@ module CodeRunner
       exec_at('http://ruby18.emacscasts.org', code)
       when 'r19', 'ruby19'
       exec_at('http://ruby19.emacscasts.org', code)
-      when 'm', 'maglev'
-      exec_at('http://maglev.emacscasts.org', code)
+#      when 'm', 'maglev'
+#      exec_at('http://maglev.emacscasts.org', code)
     end
   end
 

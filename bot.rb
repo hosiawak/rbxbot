@@ -43,7 +43,7 @@ bot = Cinch::Bot.new do
     m.channel.action slap(nick)
   end
 
-  on :message, /^@(x|rbx|rubinius|j|jruby|j18|j19|jruby19|r|r18|ruby18|r19|ruby19|m|maglev)? (.+)/ do |m,vm,code|
+  on :message, /^@(x|rbx|rubinius|j|jruby|j18|j19|jruby19|r|r18|ruby18|r19|ruby19)? (.+)/ do |m,vm,code|
     vm ||= 'x'
     m.reply run_code(code,vm)
   end
