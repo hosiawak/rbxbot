@@ -3,7 +3,7 @@ require './setup.rb'
 require 'fakefs/safe'
 require 'racc'
 require 'ruby_parser'
-
+require 'timeout'
 
 module FakeFS
 
@@ -251,7 +251,7 @@ module TryRuby
     end
     EOF
     begin
-      result = Thread.new { eval cmd, TOPLEVEL_BINDING }.value
+      result = Timeout::timeout(10) { eval cmd, TOPLEVEL_BINDING }
     rescue SecurityError => e
       return Output.illegal :illegal => e, :output => get_stdout
     rescue Exception => e
