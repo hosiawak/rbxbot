@@ -1,7 +1,7 @@
 require 'cinch'
-require 'code_runner'
-require 'slap'
-require 'help'
+require './code_runner'
+require './slap'
+require './help'
 
 bot = Cinch::Bot.new do
   configure do |c|

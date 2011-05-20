@@ -4,7 +4,7 @@ require 'json'
 
 get '/' do
   content_type :json
-  cmd = params[:cmd]
+  cmd = Addressable::URI.unescape(params[:cmd])
   r = TryRuby.run_line(cmd)
   {
     :type => r.type,

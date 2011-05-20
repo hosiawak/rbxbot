@@ -1,5 +1,6 @@
-require 'open-uri'
 require 'json'
+require 'httparty'
+require 'addressable/uri'
 
 class CodeRunner
 
@@ -23,13 +24,19 @@ class CodeRunner
   protected
 
   def self.exec_at(url, code)
-    resp = JSONopen(url + '/?cmd='+code).read
-    h = JSON.load(resp)
-    case h['type']
+    url = Addressable::URI.encode("#{url}/?cmd=#{code}}")
+    puts url
+    resp = HTTParty.get(url)
+    if resp.code != 200
+      "HTTP Connection problem"
+    else
+      h = JSON.load(resp.body)
+      case h['type']
       when "standard"
-      h['result']
+        h['result']
       when 'error'
-      h['error']
+        h['error']
+      end
     end
   end
 end
