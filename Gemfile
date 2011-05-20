@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'mongrel'
+gem 'thin'
 gem 'sinatra'
 gem 'json'
 gem 'racc'

@@ -1,12 +1,21 @@
 require 'cinch'
-require 'plugins/code_runner'
-require 'plugins/slap'
-require 'plugins/help'
+require_relative 'plugins/code_runner'
+require_relative 'plugins/slap'
+require_relative 'plugins/help'
+
+# Plugins
+
+module RbxBot
+  class Plugin
+    include CodeRunner
+    include Help
+    include Slap
+  end
+end
+
+# Bot
 
 bot = Cinch::Bot.new do
-  include CodeRunner
-  include Help
-  include Slap
 
   configure do |c|
     c.server = 'irc.freenode.net'
@@ -14,6 +23,7 @@ bot = Cinch::Bot.new do
     c.nick = 'rbxbot'
     c.channels = ['#rbxbot']
     @admin = "hosiawak"
+    @plugin = RbxBot::Plugin.new
   end
 
   helpers do
@@ -36,16 +46,16 @@ bot = Cinch::Bot.new do
   end
 
   on :message, "@help" do |m|
-    m.reply help
+    m.reply @plugin.help
   end
 
   on :message, /^@slap (\w+)/ do |m,nick|
-    m.channel.action slap(nick)
+    m.channel.action @plugin.slap(nick)
   end
 
   on :message, /^@(x|rbx|rubinius|j|jruby|j18|j19|jruby19|r|r18|ruby18|r19|ruby19)? (.+)/ do |m,vm,code|
     vm ||= 'x'
-    m.reply run_code(code,vm)
+    m.reply @plugin.run_code(code,vm)
   end
 
 end

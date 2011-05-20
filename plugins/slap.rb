@@ -29,7 +29,7 @@ module Slap
   SLAP << "puts on her slapping gloves, and slaps %s"
   SLAP << "decomposes %s into several parts using the Banach-Tarski theorem and reassembles them to get two copies of %s !"
 
-  def self.slap(nick)
+  def slap(nick)
     SLAP.sample % nick
   end
 

@@ -1,6 +1,5 @@
 require 'json'
 require 'httparty'
-require 'addressable/uri'
 
 module CodeRunner
 
