@@ -253,7 +253,7 @@ module TryRuby
     begin
       result = Timeout::timeout(10) { eval cmd, TOPLEVEL_BINDING }
     rescue SecurityError => e
-      return Output.illegal :illegal => e, :output => get_stdout
+      return Output.illegal :illegal => e
     rescue Exception => e
       return Output.error :error => e, :output => get_stdout
     ensure

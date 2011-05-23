@@ -41,6 +41,8 @@ class CodeRunner
         end
       when 'error'
         h['error']
+      when 'illegal'
+        "You are not allowed to run that command."
       end
     end
   end
