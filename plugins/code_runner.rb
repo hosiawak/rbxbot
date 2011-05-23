@@ -1,23 +1,27 @@
 require 'json'
 require 'httparty'
 
-module CodeRunner
+class CodeRunner
+  include Cinch::Plugin
 
-  def run_code(code,vm)
-    case vm
-      when 'x', 'rbx', 'rubinius'
-      exec_at('http://rbx.emacscasts.org', code)
-      when 'j', 'j18', 'jruby'
-      exec_at('http://jruby.emacscasts.org', code)
-      when 'j19', 'jruby19'
-      exec_at('http://jruby19.emacscasts.org', code)
-      when 'r', 'r18', 'ruby18'
-      exec_at('http://ruby18.emacscasts.org', code)
-      when 'r19', 'ruby19'
-      exec_at('http://ruby19.emacscasts.org', code)
-#      when 'm', 'maglev'
-#      exec_at('http://maglev.emacscasts.org', code)
-    end
+  listen_to :message
+  prefix /^@/
+  match /(x|j|j19|18|19)? (.+)/, :method => :run_code
+
+  def run_code(m,vm,code)
+    vm ||= 'x' # run rbx by default
+    m.reply case vm
+            when 'x'
+              exec_at('http://rbx.emacscasts.org', code)
+            when 'j'
+              exec_at('http://jruby.emacscasts.org', code)
+            when 'j19'
+              exec_at('http://jruby19.emacscasts.org', code)
+            when '18'
+              exec_at('http://ruby18.emacscasts.org', code)
+            when '19'
+              exec_at('http://ruby19.emacscasts.org', code)
+            end
   end
 
   protected
@@ -30,7 +34,11 @@ module CodeRunner
       h = JSON.load(resp.body)
       case h['type']
       when "standard"
-        h['result']
+        if h['result'] != "nil"
+          h['result']
+        else
+          h['output']
+        end
       when 'error'
         h['error']
       end

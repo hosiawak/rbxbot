@@ -1,4 +1,8 @@
 require 'rubygems'
 require 'tryruby'
-
-puts TryRuby.run_line('t=[]; 500000.times { t << Thread.new { 2**498739835743} }; t.each {|x| x.join}').inspect
+require 'json'
+require 'httparty'
+code = "puts 'hello'"
+resp = HTTParty.post("http://rbx.emacscasts.org", :body => { :cmd => code})
+h = JSON.load(resp.body)
+puts h.inspect

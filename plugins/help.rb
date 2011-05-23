@@ -1,7 +1,12 @@
-module Help
+class Help
+  include Cinch::Plugin
 
-  def help
-    "@r(bx|ubinius) rbx-head, @j(18|ruby) jruby-head 1.8, @jruby19 jruby-head 1.9, @r(18|uby18) MRI 1.8.7, @r(19|uby19) MRI 1.9.2"
+  listen_to :channel
+  prefix /^@/
+  match /help/, :method => :help
+
+  def help(m)
+    m.reply "@vm code -> run code on vm | @ rbx, @j jruby, @j19 jruby 1.9, @18 MRI 1.8.7, @19 MRI 1.9.2\neg. @ puts 'hello world"
   end
 
 end
