@@ -8,20 +8,23 @@ class CodeRunner
   prefix /^@/
   match /(x|j|j19|18|19)? (.+)/, :method => :run_code
 
+  MAX_LENGTH = 400
+
   def run_code(m,vm,code)
     vm ||= 'x' # run rbx by default
-    m.reply case vm
-            when 'x'
-              exec_at('http://localhost:9500', code)
-            when 'j'
-              exec_at('http://localhost:9501', code)
-            when 'j19'
-              exec_at('http://localhost:9502', code)
-            when '18'
-              exec_at('http://localhost:9503', code)
-            when '19'
-              exec_at('http://localhost:9504', code)
-            end
+    msg = case vm
+          when 'x'
+            exec_at('http://localhost:9500', code)
+          when 'j'
+            exec_at('http://localhost:9501', code)
+          when 'j19'
+            exec_at('http://localhost:9502', code)
+          when '18'
+            exec_at('http://localhost:9503', code)
+          when '19'
+            exec_at('http://localhost:9504', code)
+          end
+    m.reply(msg[0..MAX_LENGTH])
   end
 
   protected
