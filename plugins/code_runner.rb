@@ -12,15 +12,15 @@ class CodeRunner
     vm ||= 'x' # run rbx by default
     m.reply case vm
             when 'x'
-              exec_at('http://rbx.emacscasts.org', code)
+              exec_at('localhost:9500', code)
             when 'j'
-              exec_at('http://jruby.emacscasts.org', code)
+              exec_at('localhost:9501', code)
             when 'j19'
-              exec_at('http://jruby19.emacscasts.org', code)
+              exec_at('localhost:9502', code)
             when '18'
-              exec_at('http://ruby18.emacscasts.org', code)
+              exec_at('localhost:9503', code)
             when '19'
-              exec_at('http://ruby19.emacscasts.org', code)
+              exec_at('localhost:9504', code)
             end
   end
 

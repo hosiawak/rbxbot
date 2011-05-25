@@ -242,7 +242,7 @@ module TryRuby
     $stdout = StringIO.new
     cmd = <<-EOF
     #{SetupCode}
-    $SAFE = 3
+    #$SAFE = 3
     #{session.past_commands}
     $stdout = StringIO.new
     begin
@@ -251,9 +251,9 @@ module TryRuby
     end
     EOF
     begin
-      result = Timeout::timeout(10) { eval cmd, TOPLEVEL_BINDING }
+      result = Timeout::timeout(10) { eval cmd }
     rescue SecurityError => e
-      return Output.illegal :illegal => e
+      return Output.illegal
     rescue Exception => e
       return Output.error :error => e, :output => get_stdout
     ensure

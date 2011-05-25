@@ -13,7 +13,7 @@ bot = Cinch::Bot.new do
     c.user = 'rbxbot'
     c.nick = 'rbxbot'
     c.channels = ['#rbxbot']
-    c.plugins.plugins = [JoinPart,CodeRunner,Help,Slap]
+    c.plugins.plugins = [JoinPart,CodeRunner,Slap,Help]
   end
 
 end

@@ -3,9 +3,9 @@ class JoinPart
 
   listen_to :private
   prefix /^@/
-  match /^join (.+)/, :method => :join
-  match /^part(?: (.+))?/, :method => :part
-  match /^quit/, :method => :quit
+  match /join (.+)/, :method => :join
+  match /part(?: (.+))?/, :method => :part
+  match /quit/, :method => :quit
 
   def initialize(*args)
     super
