@@ -122,7 +122,9 @@ module TryRuby
   end
 
   class Output
-    attr_reader :type, :result, :output, :error, :indent_level, :javascript
+    attr_reader :type, :error, :indent_level, :javascript
+
+    MAX_LENGTH = 400
 
     def self.standard(params = {})
       Output.new(:type => :standard, :result => params[:result],
@@ -150,6 +152,14 @@ module TryRuby
       params[:error].message.gsub! /\(eval\):\d*/, '(TryRuby):1'
       Output.new(:type => :error, :error => params[:error],
                  :output => params[:output] || '')
+    end
+
+    def result
+      @result[0..MAX_LENGTH]
+    end
+
+    def output
+      @output[0..MAX_LENGTH]
     end
 
     def format
