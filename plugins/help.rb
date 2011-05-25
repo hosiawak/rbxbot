@@ -4,15 +4,15 @@ class Help
   listen_to :channel
   prefix /^@/
   match /help/, :method => :help
-  match /(\w)$/, :method => :not_found
+  match /(\w+)$/, :method => :not_found
 
   def help(m)
-    m.reply "@vm code -> run code on vm | @ rbx, @j jruby, @j19 jruby 1.9, @18 MRI 1.8.7, @19 MRI 1.9.2\neg. @ puts 'hello world"
-    m.reply "@slap nick to slap"
+    m.reply "@vm code -> runs code on vm eg. @ 1 + 2 also: @j @j19 @18 @19"
+    m.reply "@slap person -> slaps the person in question"
   end
 
   def not_found(m,command)
-    m.reply "unrecognized @{command}, type @help for available commands"
+    m.reply "unrecognized command @#{command}, type @help for available commands"
   end
 
 end

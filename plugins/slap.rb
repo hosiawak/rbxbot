@@ -1,3 +1,6 @@
+# slapping messages courtesy of lambdabot
+# https://github.com/seliopou/lambdabot
+
 class Slap
   include Cinch::Plugin
 
