@@ -6,7 +6,7 @@ class CodeRunner
 
   listen_to :message
   prefix /^@/
-  match /(x|j|j19|18|19)? (.+)/, :method => :run_code
+  match /(x|j|j19|18|19|a)? (.+)/, :method => :run_code
 
   MAX_LENGTH = 400
 
@@ -23,6 +23,8 @@ class CodeRunner
             exec_at('http://localhost:9503', code)
           when '19'
             exec_at('http://localhost:9504', code)
+          when 'a'
+            exec_at('http://localhost:9505/atomy', code)
           end
     m.reply(msg[0..MAX_LENGTH])
   end
@@ -40,7 +42,7 @@ class CodeRunner
         if h['result'] != "nil"
           h['result']
         else
-          h['output']
+          h['output'].empty? ? h['result'] : h['output']
         end
       when 'error'
         h['error']

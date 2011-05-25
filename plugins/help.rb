@@ -6,7 +6,7 @@ class Help
   match /help/, :method => :help
 
   def help(m)
-    m.reply "@vm code -> runs code on vm eg. @ 1 + 2 also: @j @j19 @18 @19"
+    m.reply "@vm code -> runs code on vm eg. @ 1 + 2 also: @j @j19 @18 @19 @a"
     m.reply "@slap person -> slaps the person in question"
   end
 

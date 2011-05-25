@@ -1,0 +1,42 @@
+Atomy::DYNAMIC_ROOTS = Hash new
+
+for-macro:
+  key(n) :=
+    Atomy::AST::Variable new $:
+      n line
+      "atomy_" + n resolve message-name
+
+  dynvar(x) :=
+    `(Thread current [#~key(x)] || Atomy::DYNAMIC_ROOTS [#~x])
+
+  set-dynvar(n, v) :=
+    `(Thread current [#~key(n)] = ~v)
+
+macro(dynamic(n, root)):
+  where = Atomy::Namespace define-target
+
+  Atomy::Namespace register(n namespace-symbol, where)
+
+  Atomy::CodeLoader when-load <<
+    [`(Atomy::Namespace register(~(n namespace-symbol), ~where)), true]
+
+  `(Atomy::DYNAMIC_ROOTS [#~n] = ~root)
+
+macro(^x): dynvar(x)
+
+macro(let(*bindings, &body)):
+  tmps = names(bindings size)
+  save = []
+  set = []
+  restore = []
+
+  bindings zip(tmps) [[`(~n = ~v), tmp]]:
+    save << `(~tmp = ~(dynvar(n)))
+    set << set-dynvar(n, v)
+    restore << set-dynvar(n, tmp)
+
+  `(do:
+      ~*save
+      { ~*set
+        ~(body caller)
+      } ensuring: ~*restore)

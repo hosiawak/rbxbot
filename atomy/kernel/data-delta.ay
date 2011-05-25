@@ -1,0 +1,158 @@
+namespace(atomy)
+
+for-macro:
+  define-class(root, e) := `(class(~e < ~root) {})
+  define-class(root, e: Atomy::AST::Send) := do:
+    name =
+      Atomy::AST::Constant new(0, e method-name)
+
+    attrs = []
+    e through-quotes [x]:
+      x match:
+        `@~_ -> attrs << x
+
+      x
+
+    tmps = names(attrs size) collect [t]:
+      Atomy::AST::Unquote new(0, t)
+
+    pat = name
+    attrs zip(tmps) [[a, t]]:
+      pat =! `(~pat with(~a, ~t))
+
+    cons = `(~(name)(~*tmps))
+
+    pat-def =
+      `(~(Atomy::AST::QuasiQuote new(0, cons)) pattern :=
+          ~(Atomy::AST::QuasiQuote new(0, pat)) pattern)
+
+    class =
+      if(root)
+        then: `(~name < ~root)
+        else: name
+
+    define =
+      `(export:
+          class(~class):
+            attr-accessor $:
+              ~*(attrs collect [a]:
+                  `#~(a receiver))
+
+            initialize(~*(e arguments)) := nil
+
+          ~pat-def)
+
+    if(e block)
+      then:
+        `(do:
+            ~define
+            ~*(e block contents collect [c]:
+                 define-class(name, c)))
+      else:
+        define
+
+macro(data(root = 'Object, &children)):
+  children ||= '{}
+
+  `(do:
+      ~(define-class(nil, `(~root ~children)))
+      nil)
+
+macro(macro-quoter(n, &x)):
+  `(evaluate-when(compile, load):
+      Atomy::Macro::Environment quoter(#~n, &~x))
+
+for-macro:
+  intp-segments(s) :=
+    s split(Regexp new("(?<!\\\\)#\\{"), 2) match:
+      [] -> ['""]
+
+      [x] -> [x to-node]
+
+      [pre, chunk] -> do:
+        p = Atomy::Parser new(chunk)
+
+        unless(p parse("interpolated")):
+          p raise-error
+
+        segments = [pre to-node, `(~(p result) to-s)]
+
+        rest = p string [p pos .. -1]
+
+        rest match:
+          nil -> segments
+          "" -> segments
+          _ -> segments + intp-segments(rest)
+
+  interpolated(x) :=
+    Atomy::AST::Interpolation new(0, intp-segments(x))
+
+  code-from("}" . rest, 0 = 0) := ["", rest join]
+  code-from("}" . rest, depth = 0) := do:
+    [c, r] = code-from(rest, depth - 1)
+    ["{" + c, r]
+  code-from("{" . rest, depth = 0) := do:
+    [c, r] = code-from(rest, depth + 1)
+    ["{" + c, r]
+  code-from(x . rest, depth = 0) := do:
+    [xs, r] = code-from(rest, depth + 1)
+    [x + xs, r]
+
+macro-quoter(w) [_, _, v]: v split
+
+macro-quoter(r) [r, fs]:
+  flags = 0
+
+  when(fs include?("m")):
+    flags |= Regexp::MULTILINE
+
+  when(fs include?("i")):
+    flags |= Regexp::IGNORECASE
+
+  when(fs include?("x")):
+    flags |= Regexp::EXTENDED
+
+  when(fs include?("u")):
+    flags |= Regexp::KCODE_UTF8
+
+  `(::Regexp new(~interpolated(r), ~flags))
+
+macro-quoter(raw) [r]: r
+
+macro-quoter(i) [_, _, v]: interpolated(v)
+
+macro(_undefined):
+  Atomy::AST::Undefined new(line)
+
+macro($(x: Primitive ? @value is-a?(::Integer) && @value > 0)):
+  Atomy::AST::NthRef new(line, x value)
+
+export:
+  module(Atomy::AST):
+    class(Undefined < Node):
+      generate
+
+      bytecode(g) := do:
+        pos(g)
+        g push-undef
+
+      pattern := Atomy::Patterns::Any new
+
+    class(NthRef < Rubinius::AST::NthRef):
+      include(NodeLike)
+      extend(SentientNode)
+      attributes(#which)
+      generate
+
+    class(Interpolation < Node):
+      children([#segments])
+      generate
+
+      bytecode(g) := do:
+        pos(g)
+
+        @segments each [s]:
+          s bytecode(g)
+
+        g string-build(@segments size)
+

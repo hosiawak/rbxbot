@@ -1,0 +1,56 @@
+macro(&x):
+  Atomy::AST::BlockPass new(x line, x)
+
+macro(*x):
+  Atomy::AST::Splat new(x line, x)
+
+macro(@(x: Variable)):
+  Atomy::AST::InstanceVariable new(x line, x name)
+
+macro(@@(x: Variable)):
+  Atomy::AST::ClassVariable new(x line, x name)
+
+macro($'exception):
+  Atomy::AST::GlobalVariable new(line, "!")
+
+macro($'path):
+  Atomy::AST::GlobalVariable new(line, ":")
+
+macro($'separator):
+  Atomy::AST::GlobalVariable new(line, "/")
+
+macro($'0):
+  Atomy::AST::GlobalVariable new(line, "0")
+
+macro($(x: String)):
+  Atomy::AST::GlobalVariable new(line, x value)
+
+macro($(x: Constant)):
+  Atomy::AST::GlobalVariable new(x line, x identifier)
+
+macro($(x: Variable)):
+  Atomy::AST::GlobalVariable new(x line, x name)
+
+macro(#(x: Constant)):
+  Atomy::AST::Particle new(x line, x identifier)
+
+macro(#(x: Variable)):
+  Atomy::AST::Particle new(x line, x name)
+
+macro(#(x: String)):
+  Atomy::AST::Particle new(x line, x value)
+
+macro(#(x: Primitive)):
+  Atomy::AST::Particle new(x line, x value to-s)
+
+macro(a .. b): `(Range new(~a, ~b))
+macro(a ... b): `(Range new(~a, ~b, true))
+
+macro(x for(e) in(c)): `(~c collect [~e]: ~x)
+
+macro(x for(e) in(c) if(t)):
+  names [tmp]:
+    `([] tap [~tmp]:
+        ~c each [~e]:
+          when(~t):
+            ~tmp << ~x)

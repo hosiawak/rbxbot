@@ -1,0 +1,61 @@
+module(Atomy::AST):
+  class(And < Node):
+    children(#a, #b)
+    generate
+
+    bytecode(g) := do:
+      pos(g)
+      done = g new-label
+      no = g new-label
+
+      @a compile(g)
+      g dup
+      g gif(done)
+
+      g pop
+      @b compile(g)
+
+      done set!
+
+  class(Or < Node):
+    children(#a, #b)
+    generate
+
+    bytecode(g) := do:
+      pos(g)
+      done = g new-label
+
+      @a compile(g)
+      g dup
+      g git(done)
+
+      g pop
+      @b compile(g)
+
+      done set!
+
+  class(Negate < Node):
+    children(#expression)
+    generate
+
+    bytecode(g) := do:
+      pos(g)
+      done = g new-label
+      yes = g new-label
+
+      @expression compile(g)
+      g git(yes)
+
+      g push-true
+      g goto(done)
+
+      yes set!
+      g push-false
+
+      done set!
+
+macro(a && b): Atomy::AST::And new(line, a, b)
+macro(a || b): Atomy::AST::Or new(line, a, b)
+macro(!a): Atomy::AST::Negate new(line, a)
+macro(a != b): `!(~a == ~b)
+macro(a !~ b): `!(~a =~ ~b)

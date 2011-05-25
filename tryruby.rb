@@ -147,7 +147,7 @@ module TryRuby
 
     def self.error(params = {})
       params[:error] ||= StandardError.new('TryRuby Error')
-      params[:error].message.gsub! /\(eval\):\d*/, '(TryRuby):1'
+      params[:error].message.gsub! /\(eval\):\d*/, '(Ruby):1'
       Output.new(:type => :error, :error => params[:error],
                  :output => params[:output] || '')
     end

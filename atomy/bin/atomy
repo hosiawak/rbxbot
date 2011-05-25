@@ -1,0 +1,134 @@
+#!/usr/bin/env rbx
+
+base = File.expand_path "../../lib/", __FILE__
+kernel = File.expand_path "../../kernel/", __FILE__
+
+require 'readline'
+require 'optparse'
+
+require base + "/macros"
+require base + "/method"
+require base + "/util"
+require base + "/namespace"
+require base + "/compiler/compiler"
+require base + "/compiler/stages"
+require base + "/parser"
+require base + "/patterns"
+require base + "/code_loader"
+
+def require_atomy(*as)
+  before = Atomy::Namespace.get
+  begin
+    Atomy::CodeLoader.load_file *as
+  ensure
+    Atomy::Namespace.set(before)
+  end
+end
+
+options = {}
+
+unless ARGV.empty? || ARGV[0][0] != ?-
+  OptionParser.new do |o|
+    o.banner = "usage: atomy [options]"
+
+    o.on("-B", "--print-bytecode", "print out compiled bytecode") do |v|
+      options[:debug] = v
+    end
+
+    o.on("-e", "--evaluate EXPR", "evaluate EXPR and print the result") do |v|
+      options[:evaluate] = v
+    end
+
+    o.on("-s", "--before-start EXPR", "evaluate EXPR beforehand") do |v|
+      options[:start] = v
+    end
+
+    o.on("-l", "--load FILE", "load FILENAME and start the REPL") do |v|
+      options[:load] = v
+    end
+
+    o.on("-d", "--documentation DIR", "generate documentation with output to DIR") do |v|
+      Atomy::CodeLoader.documentation = v
+    end
+
+    o.on_tail("-h", "--help", "show this message") do
+      puts o
+      exit
+    end
+  end.parse!
+end
+
+a = Time.now
+puts "loading kernel"
+require_atomy(kernel + "/boot.ay")
+puts Time.now - a
+
+Atomy::Namespace.ensure(:user)
+
+def run_atomy(options)
+  if str = options[:evaluate] || options[:start]
+    $0 = "(eval)"
+    res = Atomy::Compiler.evaluate(
+      str,
+      nil,
+      "(eval)",
+      1,
+      options[:debug]
+    )
+
+    if options[:evaluate]
+      res.send(Atomy.namespaced("atomy", "write").to_sym)
+      return
+    end
+  end
+
+  if file = options[:load] || ARGV[0]
+    $0 = file
+    require_atomy(file, ARGV[0] ? :run : :load, options[:debug])
+    return if ARGV[0]
+  end
+
+  if respond_to?(Atomy.namespaced("atomy", "repl").to_sym, true)
+    send(Atomy.namespaced("atomy", "repl").to_sym, File.expand_path("~/.atomy_history"))
+  else
+    $stderr.puts("main REPL startup failed! here's a basic one:")
+
+    history_file = File.expand_path("~/.atomy_history")
+
+    if File.exists?(history_file)
+      File.open(history_file, "r") do |f|
+        f.readlines.each do |l|
+          Readline::HISTORY << l.strip
+        end
+      end
+    end
+
+    begin
+      sane_history = []
+      while str = Readline.readline("> ")
+        next if str.empty?
+
+        sane_history << str
+
+        begin
+          res = Atomy::Compiler.evaluate str, TOPLEVEL_BINDING
+          if res.respond_to?(:pretty)
+            puts "=> #{res.pretty.render}"
+          else
+            puts "=> #{res.inspect}"
+          end
+        rescue StandardError => e
+          puts "ERROR!"
+          puts "#{e}:\n  #{e.message}"
+          puts e.backtrace
+        end
+      end
+    ensure
+      File.open(history_file, "a") do |f|
+        f.puts(*sane_history)
+      end
+    end
+  end
+end
+
+run_atomy(options)
