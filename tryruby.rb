@@ -155,11 +155,11 @@ module TryRuby
     end
 
     def result
-      @result[0..MAX_LENGTH]
+      @result.to_s[0..MAX_LENGTH]
     end
 
     def output
-      @output[0..MAX_LENGTH]
+      @output.to_s[0..MAX_LENGTH]
     end
 
     def format
