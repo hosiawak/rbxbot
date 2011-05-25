@@ -5,7 +5,7 @@ class JoinPart
   prefix /^@/
   match /join (.+)/, :method => :join
   match /part(?: (.+))?/, :method => :part
-  match /quit/, :method => :quit
+#  match /quit/, :method => :quit
 
   def initialize(*args)
     super
@@ -29,7 +29,7 @@ class JoinPart
     Channel(channel).part if channel
   end
 
-  def quit(m)
-    m.channel.bot.quit
-  end
+#  def quit(m)
+#    m.channel.bot.quit
+#  end
 end
