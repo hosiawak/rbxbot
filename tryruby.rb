@@ -155,7 +155,7 @@ module TryRuby
     end
 
     def result
-      @result.to_s[0..MAX_LENGTH]
+      @result.is_a?(String) ? @result[0..MAX_LENGTH] : @result
     end
 
     def output
