@@ -52,7 +52,6 @@ module FakeFS
         "/"
       end
     end
-
   end
 
   class FakeFile
@@ -242,7 +241,6 @@ module TryRuby
     $stdout = StringIO.new
     cmd = <<-EOF
     #{SetupCode}
-    #$SAFE = 3
     #{session.past_commands}
     $stdout = StringIO.new
     begin
