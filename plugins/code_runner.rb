@@ -12,15 +12,15 @@ class CodeRunner
     vm ||= 'x' # run rbx by default
     m.reply case vm
             when 'x'
-              exec_at('localhost:9500', code)
+              exec_at('http://localhost:9500', code)
             when 'j'
-              exec_at('localhost:9501', code)
+              exec_at('http://localhost:9501', code)
             when 'j19'
-              exec_at('localhost:9502', code)
+              exec_at('http://localhost:9502', code)
             when '18'
-              exec_at('localhost:9503', code)
+              exec_at('http://localhost:9503', code)
             when '19'
-              exec_at('localhost:9504', code)
+              exec_at('http://localhost:9504', code)
             end
   end
 

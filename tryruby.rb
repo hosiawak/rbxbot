@@ -251,7 +251,7 @@ module TryRuby
     end
     EOF
     begin
-      result = Timeout::timeout(10) { eval cmd }
+      result = Timeout::timeout(10) { eval(cmd, TOPLEVEL_BINDING) }
     rescue SecurityError => e
       return Output.illegal
     rescue Exception => e
