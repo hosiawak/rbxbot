@@ -1,5 +1,7 @@
-require './atomy/lib/atomy'
+require 'atomy'
 require 'timeout'
+
+Atomy.import_kernel
 
 class TryAtomy
 
