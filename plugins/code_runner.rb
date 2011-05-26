@@ -50,7 +50,8 @@ class CodeRunner
         "You are not allowed to run that command."
       end
     end
-    rescue busy_msg
+  rescue Exception
+    busy_msg
   end
 
   def busy_msg
