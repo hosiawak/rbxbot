@@ -34,7 +34,7 @@ class CodeRunner
   def exec_at(url, code)
     resp = HTTParty.post(url, :body => { :cmd => code})
     if resp.code != 200
-      "I'm busy, ask someone else."
+      busy_msg
     else
       h = JSON.load(resp.body)
       case h['type']
@@ -50,5 +50,10 @@ class CodeRunner
         "You are not allowed to run that command."
       end
     end
+    rescue busy_msg
+  end
+
+  def busy_msg
+    "I'm busy, ask someone else."
   end
 end
