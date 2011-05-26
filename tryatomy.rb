@@ -2,6 +2,7 @@ require 'atomy'
 require 'timeout'
 
 Atomy.import_kernel
+Atomy::Namespace.ensure(:rbxbot)
 
 class TryAtomy
 
@@ -18,8 +19,8 @@ class TryAtomy
     end
 
     def self.error(params = {})
-      params[:error] ||= StandardError.new('TryRuby Error')
-      params[:error].message.gsub! /\(eval\):\d*/, '(Ruby):1'
+      params[:error] ||= StandardError.new('Atomy Error')
+      params[:error].message.gsub! /\(eval\):\d*/, '(Atomy):1'
       Output.new(:type => :error, :error => params[:error],
                  :output => params[:output] || '')
     end
