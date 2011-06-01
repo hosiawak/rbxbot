@@ -49,7 +49,7 @@ class Slap
   match /slap (\w+)/, :method => :slap
 
   def slap(m,nick)
-    if rand(2) == 1
+    if rand(10) > 2
       m.channel.action my_slap % nick
     else
       m.reply msg_slap % nick
