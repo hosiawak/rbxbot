@@ -14,9 +14,9 @@ bot = Cinch::Bot.new do
 
   configure do |c|
     c.server = 'irc.freenode.net'
-    c.user = 'rbxbot_new'
-    c.nick = 'rbxbot_new'
-    c.channels = %w(#rbxbot )
+    c.user = 'rbxbot'
+    c.nick = 'rbxbot'
+    c.channels = %w(#rbxbot rubinius atomo)
     c.plugins.plugins = [JoinPart,CodeRunner,SourceBrowser,Slap,Hug,Help,Quietude,Bots]
   end
 
