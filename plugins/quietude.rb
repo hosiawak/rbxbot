@@ -60,13 +60,15 @@ class Quietude
   match /.+/, :method => :quietude
 
   def quietude(m)
-    @channels ||= { }
-    if t = @channels[m.channel.name]
-      t.kill if t.alive?
-    end
-    @channels[m.channel.name] = Thread.new do
-      sleep PAUSE
-      m.reply MSG.sample
+    if m.channel
+      @channels ||= { }
+      if t = @channels[m.channel.name]
+        t.kill if t.alive?
+      end
+      @channels[m.channel.name] = Thread.new do
+        sleep PAUSE
+        m.reply MSG.sample
+      end
     end
   end
 
