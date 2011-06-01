@@ -22,7 +22,7 @@ class CodeRunner
   def run_code(m,vm,code)
     vm ||= 'x' # run rbx by default
 
-    if code =~ /^https:\/\/gist.github.com\/\d+/
+    if code =~ /^https:\/\/gist.github.com\/.+/
       url = code
       msg = exec_at(backend_for(vm), get_gist(url))
     else

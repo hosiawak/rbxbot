@@ -3,7 +3,7 @@ class Bots
 
   listen_to :channel
   prefix /^@/
-  match /bots/, :method => :help
+  match /bots/, :method => :bots
 
   def bots(m)
     m.reply ":)"

@@ -9,7 +9,7 @@ class SourceBrowser
   match /@source (.+)/, :method => :source
 
   BACKEND = "http://localhost:9500/source"
-  RBX_REPO = "https://github.com/evanphx/rubinius/tree/master/"
+  RBX_REPO = "https://github.com/evanphx/rubinius/blob/master/"
 
   def source(m, method)
     r = lookup(method)
