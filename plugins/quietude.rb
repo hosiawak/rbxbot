@@ -52,7 +52,6 @@ class Quietude
   MSG << "The lion which moves silently is the one that eats meat."
   MSG << "A silent woman is always more admired than a noisy one."
   MSG << "Hear, see, and be silent."
-  MSG << "He who doesn't fart, lets out silent ones."
 
   PAUSE = 45*60
   listen_to :channel

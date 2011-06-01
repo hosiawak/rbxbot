@@ -1,0 +1,6 @@
+@help -> shows all available commands
+@vm code -> runs code on rbx eg. @ 1 + 2 other available VMs: @j @j19 @18 @19 @a
+@vm https://gist.github.com/123 -> runs the gist on the VM
+@source method -> links to rbx's kernel method source on github
+@slap person
+@hug person

@@ -2,12 +2,17 @@ class Help
   include Cinch::Plugin
 
   listen_to :channel
-  prefix /^@/
-  match /help/, :method => :help
+  prefix /^/
+  match /@help/, :method => :help
+  match /rbxbot:.+/, :method => :nice_to_meet
+
+  HELP_URL = "https://github.com/hosiawak/rbxbot/blob/master/COMMANDS"
 
   def help(m)
-    m.reply "@vm code -> runs code on vm eg. @ 1 + 2 also: @j @j19 @18 @19 @a"
-    m.reply "@slap person -> slaps the person in question"
+    m.reply HELP_URL
   end
 
+  def nice_to_meet(m)
+    m.reply "#{m.user.nick}: Hello, I'm a bot, my commands are here #{HELP_URL}"
+  end
 end

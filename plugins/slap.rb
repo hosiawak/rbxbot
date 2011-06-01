@@ -4,32 +4,32 @@
 class Slap
   include Cinch::Plugin
 
-  MY_SLAP = []
-  MY_SLAP << "slaps %s"
-  MY_SLAP << "smacks %s about with a large trout"
-  MY_SLAP << "beats up %s"
-  MY_SLAP << "pokes %s in the eye"
-  MY_SLAP << "orders her trained monkeys to punch %s"
-  MY_SLAP << "smashes a lamp on %s's head"
-  MY_SLAP << "hits %s with a hammer, so they breaks into a thousand pieces"
-  MY_SLAP << "throws some pointy lambdas at %s"
-  MY_SLAP << "loves %s, so no slapping"
-  MY_SLAP << "would never hurt %s !"
-  MY_SLAP << "clobbers %s with an untyped language"
-  MY_SLAP << "pulls %s through the Evil Mangler"
-  MY_SLAP << "secretly deletes %s's source code"
-  MY_SLAP << "places her fist firmly on %s's jaw"
-  MY_SLAP << "locks up %s in a Monad"
-  MY_SLAP << "submits %s's email address to a dozen spam lists"
-  MY_SLAP << "moulds %s into a delicous cookie, and places it in her oven"
-  MY_SLAP << "jabs %s with a C pointer"
-  MY_SLAP << "is overcome by a sudden desire to hurt %s"
-  MY_SLAP << "karate-chops %s into two equally sized halves"
-  MY_SLAP << "pushes %s from his chair"
-  MY_SLAP << "hits %s with an assortment of kitchen utensils"
-  MY_SLAP << "slaps %s with a slab of concrete"
-  MY_SLAP << "puts on her slapping gloves, and slaps %s"
-  MY_SLAP << "decomposes %s into several parts using the Banach-Tarski theorem and reassembles them to get two copies of %s !"
+  ME_SLAP = []
+  ME_SLAP << "slaps %s"
+  ME_SLAP << "smacks %s about with a large trout"
+  ME_SLAP << "beats up %s"
+  ME_SLAP << "pokes %s in the eye"
+  ME_SLAP << "orders her trained monkeys to punch %s"
+  ME_SLAP << "smashes a lamp on %s's head"
+  ME_SLAP << "hits %s with a hammer, so they breaks into a thousand pieces"
+  ME_SLAP << "throws some pointy lambdas at %s"
+  ME_SLAP << "loves %s, so no slapping"
+  ME_SLAP << "would never hurt %s !"
+  ME_SLAP << "clobbers %s with an untyped language"
+  ME_SLAP << "pulls %s through the Evil Mangler"
+  ME_SLAP << "secretly deletes %s's source code"
+  ME_SLAP << "places her fist firmly on %s's jaw"
+  ME_SLAP << "locks up %s in a Monad"
+  ME_SLAP << "submits %s's email address to a dozen spam lists"
+  ME_SLAP << "moulds %s into a delicous cookie, and places it in her oven"
+  ME_SLAP << "jabs %s with a C pointer"
+  ME_SLAP << "is overcome by a sudden desire to hurt %s"
+  ME_SLAP << "karate-chops %s into two equally sized halves"
+  ME_SLAP << "pushes %s from his chair"
+  ME_SLAP << "hits %s with an assortment of kitchen utensils"
+  ME_SLAP << "slaps %s with a slab of concrete"
+  ME_SLAP << "puts on her slapping gloves, and slaps %s"
+  ME_SLAP << "decomposes %s into several parts using the Banach-Tarski theorem and reassembles them to get two copies of %s !"
 
   MSG_SLAP = []
   MSG_SLAP <<  "why on earth would I slap %s?"
@@ -54,7 +54,7 @@ class Slap
   protected
 
   def my_slap
-    MY_SLAP.sample
+    ME_SLAP.sample
   end
 
   def msg_slap
