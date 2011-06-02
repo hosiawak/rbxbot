@@ -53,22 +53,33 @@ class Quietude
   MSG << "A silent woman is always more admired than a noisy one."
   MSG << "Hear, see, and be silent."
 
-  PAUSE = 45*60
   listen_to :channel
   prefix /^/
   match /.+/, :method => :quietude
 
+  def initialize(bot)
+    @channels = { }
+    super(bot)
+  end
+
   def quietude(m)
     if m.channel
-      @channels ||= { }
       if t = @channels[m.channel.name]
         t.kill if t.alive?
       end
       @channels[m.channel.name] = Thread.new do
-        sleep PAUSE
+        sleep pause
         m.reply MSG.sample
       end
     end
+  end
+
+  protected
+
+  def pause
+    base = 20 * 60 # 20 mins
+    shift = (rand(60)+1) * 60 # + 60 mins random shift
+    base + shift
   end
 
 end

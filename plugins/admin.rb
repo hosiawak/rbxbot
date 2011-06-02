@@ -1,11 +1,13 @@
-class JoinPart
+class Admin
   include Cinch::Plugin
 
   listen_to :private
   prefix /^@/
   match /join (.+)/, :method => :join
   match /part(?: (.+))?/, :method => :part
-#  match /quit/, :method => :quit
+  match /nick (.+)/, :method => :nick
+  match /identify (.+)/, :method => :identify
+  match /quit/, :method => :quit
 
   def initialize(*args)
     super
@@ -29,7 +31,18 @@ class JoinPart
     Channel(channel).part if channel
   end
 
-#  def quit(m)
-#    m.channel.bot.quit
-#  end
+  def nick(m, nick)
+    return unless check_user(m.user)
+    bot.nick = nick
+  end
+
+  def identify(m, password)
+    return unless check_user(m.user)
+    User("NickServ").send("identify #{password}")
+  end
+
+  def quit(m)
+    return unless check_user(m.user)
+    bot.quit("Goodbye")
+  end
 end
