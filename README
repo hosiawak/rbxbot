@@ -4,3 +4,44 @@ executing Ruby code on various VMs.
 Parts of the tryruby.rb code are
 Copyright (c) 2009 Andrew McElroy
 
+bot/ directory contains the IRC bot. To run it:
+
+1. cd bot
+2. rvm use 1.9.2 (or switch to 1.9 mode on another VM)
+3. bundle install
+4. bundle exec ruby bot.rb
+
+backends/ directory contains a Sinatra application (app.rb) that
+executes code on various VMs. To run:
+
+RBX
+1. cd backends
+2. rvm use rbx-head
+3. bundle install
+4. bundle exec ruby app.rb -p 9500
+
+JRUBY
+1. rvm use jruby-head
+2. bundle install
+3. bundle exec ruby app.rb -p 9501
+
+JRUBY 1.9
+1. rvm use jruby-head
+2. bundle install
+3. bundle exec ruby --1.9 app.rb -p 9502
+
+MRI 1.8
+1. rvm use 1.8.7
+2. bundle install
+3. bundle exec ruby app.rb -p 9503
+
+MRI 1.9
+1. rvm use 1.9.2
+2. bundle install
+3. bundle exec ruby app.rb -p 9504
+
+ATOMY
+1. rvm use rbx-head
+2. bundle install
+3. bundle exec ruby app.rb -p 9504
+
