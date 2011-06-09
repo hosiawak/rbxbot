@@ -52,6 +52,10 @@ class Quietude
   MSG << "The lion which moves silently is the one that eats meat."
   MSG << "A silent woman is always more admired than a noisy one."
   MSG << "Hear, see, and be silent."
+  MSG << "JIT, I has it."
+  MSG << "Roflscale, I has it."
+  MSG << "Roses blu. Violets red. Sandwich tasty. Rhyming is hard."
+  MSG << "I tried and Rubinius I got all threads are these."
 
   listen_to :channel
   prefix /^/

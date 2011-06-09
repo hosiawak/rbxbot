@@ -38,10 +38,11 @@ class Slap
   MSG_SLAP <<  "I'd rather not; %s looks rather dangerous."
   MSG_SLAP <<  "Come on, let's all slap %s"
   MSG_SLAP <<  "%s, is it done yet?"
+  MSG_SLAP <<  "%s: http://asset.soup.io/asset/1571/5605_2788_597.png"
 
   listen_to :channel
   prefix /^@/
-  match /slap (\w+)/, :method => :slap
+  match /slap (.+)/, :method => :slap
 
   def slap(m,nick)
     if rand(10) > 2

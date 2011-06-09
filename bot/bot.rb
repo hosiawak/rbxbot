@@ -17,6 +17,7 @@ bot = Cinch::Bot.new do
     c.user = 'rbxbot'
     c.nick = 'rbxbot'
     c.channels = %w(#rbxbot #rubinius #atomo #scala.pl)
+#    c.channels = %w(#rbxbot)
     c.plugins.plugins = [Admin,CodeRunner,SourceBrowser,Slap,Hug,Help,Quietude,Bots]
   end
 

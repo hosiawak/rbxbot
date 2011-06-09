@@ -8,6 +8,7 @@ class Admin
   match /nick (.+)/, :method => :nick
   match /identify (.+)/, :method => :identify
   match /quit/, :method => :quit
+  match /msg (\S+) (.+)/, :method => :msg
 
   def initialize(*args)
     super
@@ -44,5 +45,9 @@ class Admin
   def quit(m)
     return unless check_user(m.user)
     bot.quit("Goodbye")
+  end
+
+  def msg(m, channel, text)
+    Channel(channel).msg text
   end
 end
